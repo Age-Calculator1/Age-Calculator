@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta name="keywords" content="حساب العمر, قياس العمر,الفرق بين الأعمار,احصائيات العمر,حساب العمر على الكواكب,معرفة العمر بالضبط,حساب فرق العمر, حساب العمر بالميلادي,حساب فرق عمرين,حساب العمر, بالأشهر,حساب العمر بالأسابيع,حساب العمر بالأيام,حساب العمر بالساعات,حساب العمر بالدقائق,حساب العمر بالثواني, معرفة في اي يوم ولدت,معرفة يوم ميلادي, معرفة يوم عيد ميلادي">
+    <meta name="description" content="موقع حساب العمر المتطور يوفر لك أدوات لحساب العمر بدقة، مقارنة الأعمار، حساب العمر على الكواكب المختلفة، وإحصائيات عمرية شاملة وفي اي يوم ولدت وعمرك بالأشهر والأسابيع والأيام والساعات والدقائق والثواني, حساب فرق بين عمرين">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع حساب العمر</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Tajawal' sans-serif;
+            background-color: #2c5364;
+            color: #fff;
+            direction: rtl;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+        }
+
+        nav button {
+            background: none;
+            border: 2px solid #00897e;
+            color: #00897e;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s, border-color 0.3s;
+            font-family: 'Tajawal', sans-serif;
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+
+        nav button:hover {
+            color: #fff;
+            border-color: #fff;
+        }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .date-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .date-input {
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            text-align: center;
+            width: 80px;
+        }
+
+        .age-hint {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .age-display {
+            font-size: 24px;
+            margin-top: 20px;
+            line-height: 1.6;
+            display: none;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-button {
+            background-color: #004d40;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            border-radius: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .error-message {
+            color: #ff0000;
+            margin-top: 10px;
+        }
+
+        .custom-dialog {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 20px auto;
+            display: none;
+        }
+
+        .custom-dialog button {
+            background-color: #004d40;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            text-align: center;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .age-comparison-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .age-comparison-dialog input {
+            margin-top: 10px;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            text-align: center;
+            width: 80px;
+        }
+
+        .age-comparison-dialog button {
+            margin-top: 20px;
+            background-color: #004d40;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+     
+        <h1>حساب العمر المتطور</h1>
+          <img src="logo.png" alt="شعار الموقع" width="300 px">
+</header>
+    </header>
+    <nav>
+        <button onclick="calculateAge()">حساب العمر</button>
+        <button onclick="openAgeComparison()">مقارنة العمر</button>
+        <button onclick="ageStats()">احصائية العمر</button>
+        <button onclick="ageOnPlanets()">حساب العمر على كواكب أخرى</button>  
+    </nav>
+    <div class="content">
+        <h2 id="inputLabel">أدخل تاريخ ميلادك</h2>
+        <div class="date-inputs">
+            <input type="number" id="day" class="date-input" placeholder="اليوم" min="1" max="31"/>
+            <input type="number" id="month" class="date-input" placeholder="الشهر" min="1" max="12"/>
+            <input type="number" id="year" class="date-input" placeholder="السنة" min="1900" max="2100"/>
+        </div>
+        <div class="age-hint">اختر اليوم والشهر والسنة</div>
+        <div id="ageResult" class="age-display">
+            <button class="close-button" onclick="closeAgeResult()">إغلاق</button>
+        </div>
+        <div id="errorMessage" class="error-message"></div>
+    </div>
+    <div id="customDialog" class="custom-dialog">
+        <div id="dialogContent"></div>
+        <button onclick="closeDialog()">إغلاق</button>
+    </div>
+    <div id="ageComparisonDialog" class="age-comparison-dialog">
+        <h2>أدخل التاريخ الأول</h2>
+        <div class="date-inputs">
+            <input type="number" id="compDay1" class="date-input" placeholder="اليوم" min="1" max="31"/>
+            <input type="number" id="compMonth1" class="date-input" placeholder="الشهر" min="1" max="12"/>
+            <input type="number" id="compYear1" class="date-input" placeholder="السنة" min="1900" max="2100"/>
+        </div>
+        <h2>أدخل التاريخ الثاني</h2>
+        <div class="date-inputs">
+            <input type="number" id="compDay2" class="date-input" placeholder="اليوم" min="1" max="31"/>
+            <input type="number" id="compMonth2" class="date-input" placeholder="الشهر" min="1" max="12"/>
+            <input type="number" id="compYear2" class="date-input" placeholder="السنة" min="1900" max="2100"/>
+        </div>
+        <div>
+            <button onclick="calculateAgeDifference()">حساب فرق العمر</button>
+            <button class="close-button" onclick="closeAgeComparisonDialog()">×</button>
+        </div>
+    </div>
+
+<br>
+<br>
+<br>
+<br>
+  
+<footer class="footer" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; text-align: center; font-family: 'Tajawal', sans-serif; color: #ffffff;">
+    <h2 style="color: #009eac">عن الموقع</h2>
+    <p style="font-size: 18px; line-height: 1.6; color: #ffffff;">
+        يقدم هذا الموقع أدوات متنوعة لحساب العمر بدقة وسهولة. يتضمن أيضًا ميزة مقارنة بين أعمار شخصين، 
+        بالإضافة إلى إحصائيات دقيقة عن عمرك. كما يمكنك حساب عمرك على كواكب أخرى بطريقة مبتكرة وممتعة.
+    </p>
+</footer>
+
+
+
+<footer class="footer" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; text-align: center; font-family: 'Tajawal', sans-serif; color: #ffffff;">
+    <h2 style="color: #009eac;">من نحن</h2>
+    <p style="font-size: 18px; line-height: 1.6; color: #ffffff;">
+        نحن فريق متخصص في تطوير أدوات الويب التي تجعل حياتك أسهل وأكثر دقة. هدفنا هو تقديم حلول متقدمة لحسابات العمر والمقارنات وإحصائيات دقيقة تساعدك على متابعة حياتك بطريقة ممتعة وسهلة.
+        إذا كنت بحاجة إلى أي مساعدة أو استفسارات، لا تتردد في التواصل معنا عبر البريد الإلكتروني 
+    </p>
+    <a href="mailto:www.abod.vip.com@gmail.com" style="color:#49cadc; font-size: 20px; font-weight: bold; text-decoration: none;">
+        www.abod.vip.com@gmail.com
+    </a>
+</footer>   
+    <script>
+        
+      let ageInterval;
+
+function clearPreviousResults() {
+    const ageResult = document.getElementById('ageResult');
+    ageResult.innerHTML = '<button class="close-button" onclick="closeAgeResult()">إغلاق</button>';
+    ageResult.style.display = 'none';
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.innerHTML = '';
+    if (ageInterval) clearInterval(ageInterval);
+}
+
+function showAgeResult() {
+    document.getElementById('ageResult').style.display = 'block';
+}
+
+function closeAgeResult() {
+    document.getElementById('ageResult').style.display = 'none';
+}
+
+function displayDialog(content) {
+    const dialog = document.getElementById('customDialog');
+    const dialogContent = document.getElementById('dialogContent');
+    dialogContent.innerHTML = content;
+    dialog.style.display = 'block';
+}
+
+function closeDialog() {
+    document.getElementById('customDialog').style.display = 'none';
+}
+
+function closeAgeComparisonDialog() {
+    document.getElementById('ageComparisonDialog').style.display = 'none';
+    clearAgeComparisonInputs();
+}
+
+function clearAgeComparisonInputs() {
+    document.getElementById('compDay1').value = '';
+    document.getElementById('compMonth1').value = '';
+    document.getElementById('compYear1').value = '';
+    document.getElementById('compDay2').value = '';
+    document.getElementById('compMonth2').value = '';
+    document.getElementById('compYear2').value = '';
+}
+
+function validateDate(day, month, year) {
+    const birthdate = new Date(year, month - 1, day);
+    return birthdate.getDate() === day && birthdate.getMonth() === month - 1 && birthdate.getFullYear() === year;
+}
+
+function calculateAge() {
+    clearPreviousResults();
+    const day = parseInt(document.getElementById('day').value);
+    const month = parseInt(document.getElementById('month').value);
+    const year = parseInt(document.getElementById('year').value);
+    
+    if (!validateDate(day, month, year)) {
+        document.getElementById('errorMessage').innerHTML = 'إدخال خاطئ، يرجى إدخال تاريخ صحيح.';
+        return;
+    }
+
+    const birthdate = new Date(year, month - 1, day);
+    showAgeResult();
+    const now = new Date();
+    let ageInMilliseconds = now - birthdate;
+
+    const daysOfWeek = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+    const birthDayOfWeek = daysOfWeek[birthdate.getDay()];
+
+    const ageResult = document.getElementById('ageResult');
+
+    function updateAgeDisplay() {
+        const seconds = Math.floor(ageInMilliseconds / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+        const years = Math.floor(days / 365.25);
+        const remainingDays = Math.floor(days % 365.25);
+        const months = Math.floor(remainingDays / 30.44);
+        const remainingDaysFinal = Math.floor(remainingDays % 30.44);
+        const remainingHours = hours % 24;
+        const remainingMinutes = minutes % 60;
+        const remainingSeconds = seconds % 60;
+
+        ageResult.innerHTML =
+            `<button class="close-button" onclick="closeAgeResult()">إغلاق</button>` +
+            `عمرك هو:<br> ${years} سنة<br> ${months} شهر<br> ${remainingDaysFinal} يوم<br> ${remainingHours} ساعة<br> ${remainingMinutes} دقيقة<br> ${remainingSeconds} ثانية<br> ولدت في يوم ${birthDayOfWeek}`;
+    }
+
+    updateAgeDisplay();
+
+    ageInterval = setInterval(() => {
+        ageInMilliseconds += 1000;
+        updateAgeDisplay();
+    }, 1000);
+}
+
+function openAgeComparison() {
+    document.getElementById('ageComparisonDialog').style.display = 'block';
+}
+
+function calculateAgeDifference() {
+    const day1 = parseInt(document.getElementById('compDay1').value);
+    const month1 = parseInt(document.getElementById('compMonth1').value);
+    const year1 = parseInt(document.getElementById('compYear1').value);
+    const day2 = parseInt(document.getElementById('compDay2').value);
+    const month2 = parseInt(document.getElementById('compMonth2').value);
+    const year2 = parseInt(document.getElementById('compYear2').value);
+
+    if (!validateDate(day1, month1, year1) || !validateDate(day2, month2, year2)) {
+        displayDialog('إدخال خاطئ، يرجى إدخال تاريخ صحيح.');
+        return;
+    }
+
+    const date1 = new Date(year1, month1 - 1, day1);
+    const date2 = new Date(year2, month2 - 1, day2);
+
+    const diffInMilliseconds = Math.abs(date2 - date1);
+    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+
+    const years = Math.floor(diffInDays / 365.25);
+    const remainingDaysAfterYears = Math.floor(diffInDays % 365.25);
+    const months = Math.floor(remainingDaysAfterYears / 30.44);
+    const remainingDays = Math.floor(remainingDaysAfterYears % 30.44);
+
+    const daysOfWeek = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+    const date1DayOfWeek = daysOfWeek[date1.getDay()];
+    const date2DayOfWeek = daysOfWeek[date2.getDay()];
+
+    let result = 'الفرق بين العمرين هو:<br>';
+
+    if (years > 0) {
+        result += `${years} سنة<br>`;
+    }
+    if (months > 0) {
+        result += `${months} شهر<br>`;
+    }
+    if (remainingDays > 0 || (years === 0 && months === 0)) {
+        result += `${remainingDays} يوم<br>`;
+    }
+
+    result += `<br>تاريخ الميلاد الأول كان في يوم ${date1DayOfWeek}<br>تاريخ الميلاد الثاني كان في يوم ${date2DayOfWeek}`;
+
+    document.getElementById('ageComparisonDialog').style.display = 'none';
+    displayDialog(result);
+}
+
+function ageStats() {
+    clearPreviousResults();
+    const day = parseInt(document.getElementById('day').value);
+    const month = parseInt(document.getElementById('month').value);
+    const year = parseInt(document.getElementById('year').value);
+
+    if (!validateDate(day, month, year)) {
+        document.getElementById('errorMessage').innerHTML = 'إدخال خاطئ، يرجى إدخال تاريخ صحيح.';
+        return;
+    }
+
+    const birthdate = new Date(year, month - 1, day);
+    const now = new Date();
+    const ageInMilliseconds = now - birthdate;
+
+    const seconds = Math.floor(ageInMilliseconds / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const weeks = Math.floor(days / 7);
+    const months = Math.floor(days / 30.44);
+    const years = Math.floor(days / 365.25);
+
+    displayDialog(`احصائية العمر:<br> عمرك بالسنوات: ${years} سنة<br>عمرك بالأشهر: ${months} شهر<br>عمرك بالأسابيع: ${weeks} أسبوع<br>عمرك بالأيام: ${days} يوم<br> عمرك بالساعات: ${hours} ساعة<br>عمرك بالدقائق: ${minutes} دقيقة<br> عمرك بالثواني: ${seconds} ثانية`);
+}
+
+function ageOnPlanets() {
+    clearPreviousResults();
+    const day = parseInt(document.getElementById('day').value);
+    const month = parseInt(document.getElementById('month').value);
+    const year = parseInt(document.getElementById('year').value);
+
+    if (!validateDate(day, month, year)) {
+        document.getElementById('errorMessage').innerHTML = 'إدخال خاطئ، يرجى إدخال تاريخ صحيح.';
+        return;
+    }
+    
+    const birthdate = new Date(year, month - 1, day);
+    const now = new Date();
+    const ageInMilliseconds = now - birthdate;
+
+    const seconds = Math.floor(ageInMilliseconds / 1000);
+    const earthYears = seconds / (365.25 * 24 * 3600);
+
+    const planets = {
+        عطارد: 0.24,
+        الزهرة: 0.62,
+        المريخ: 1.88,
+        المشتري: 11.86,
+        زحل: 29.46,
+        أورانوس: 84.01,
+        نبتون: 164.8
+    };
+
+    let result = 'العمر على الكواكب:<br>';
+    for (const planet in planets) {
+        const planetYears = earthYears / planets[planet];
+        const planetDays = Math.floor((planetYears % 1) * 365.25);
+        const planetMonths = Math.floor(planetDays / 30.44);
+        const remainingDays = Math.floor(planetDays % 30.44);
+        const planetHours = Math.floor((remainingDays % 1) * 24);
+        const planetMinutes = Math.floor((planetHours % 1) * 60);
+
+        let planetResult = `${planet}:`;
+        if (Math.floor(planetYears) > 0) planetResult += ` ${Math.floor(planetYears)} سنة،`;
+        if (planetMonths > 0) planetResult += ` ${planetMonths} شهر،`;
+        if (remainingDays > 0) planetResult += ` ${Math.floor(remainingDays)} يوم،`;
+        if (planetHours > 0) planetResult += ` ${planetHours} ساعة،`;
+        if (planetMinutes > 0) planetResult += ` ${planetMinutes} دقيقة`;
+
+        if (planetResult.endsWith('،')) {
+            planetResult = planetResult.slice(0, -1);
+        }
+
+        result += planetResult + '<br>';
+    }
+
+    displayDialog(result);
+}
+    </script>
+</body>
+</html>
